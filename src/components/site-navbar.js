@@ -1,14 +1,14 @@
-import { logoutUser , onAuthReady} from '/src/authentication.js';
+import { logoutUser, onAuthReady } from "/src/authentication.js";
 
 class SiteNavbar extends HTMLElement {
-    constructor() {
-        super();
-        this.renderNavbar();
-        this.renderAuthControls();
-    }
+  constructor() {
+    super();
+    this.renderNavbar();
+    this.renderAuthControls();
+  }
 
-    renderNavbar() {
-        this.innerHTML = `
+  renderNavbar() {
+    this.innerHTML = `
             <!-- Navbar: single source of truth -->
             <nav class="navbar navbar-expand-lg navbar-light bg-info">
                 <div class="container-fluid">
@@ -25,6 +25,12 @@ class SiteNavbar extends HTMLElement {
                             <li class="nav-item">
                                 <a class="nav-link" href="/">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/addHike.html">Add hike</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile.html">Profile</a>
+                            </li>
                         </ul>
                         <div class="d-flex align-items-center gap-2 ms-lg-2" id="rightControls">
                             <form class="d-flex align-items-center gap-2 my-2 my-lg-0" id="navSearch" role="search">
@@ -40,28 +46,30 @@ class SiteNavbar extends HTMLElement {
                 </div>
             </nav>
         `;
-    }
+  }
 
-    renderAuthControls() {
-    const authControls = this.querySelector('#authControls'); // Find #authControls inside this navbar
+  renderAuthControls() {
+    const authControls = this.querySelector("#authControls"); // Find #authControls inside this navbar
 
     // Invisible placeholder prevents layout shifting while Firebase checks login status
     authControls.innerHTML = `<div class="btn btn-outline-light" style="visibility: hidden; min-width: 80px;">Log out</div>`;
 
     // Pass a callback that runs when Firebase reports the login status
-    onAuthReady(function(user) { // Receives the user object (or null)
+    onAuthReady(function (user) {
+      // Receives the user object (or null)
 
-        if (user) { // User is logged in
-            authControls.innerHTML = `<button class="btn btn-outline-light" id="signOutBtn" type="button" style="min-width: 80px;">Log out</button>`;
+      if (user) {
+        // User is logged in
+        authControls.innerHTML = `<button class="btn btn-outline-light" id="signOutBtn" type="button" style="min-width: 80px;">Log out</button>`;
 
-            const signOutBtn = authControls.querySelector('#signOutBtn');
-            signOutBtn.addEventListener('click', logoutUser); // Callback: runs when Log out is clicked
-
-        } else { // User is NOT logged in, and gets redirected to login page if user clicks the login button
-            authControls.innerHTML = `<a class="btn btn-outline-light" id="loginBtn" href="/login.html" style="min-width: 80px;">Log in</a>`;
-        }
+        const signOutBtn = authControls.querySelector("#signOutBtn");
+        signOutBtn.addEventListener("click", logoutUser); // Callback: runs when Log out is clicked
+      } else {
+        // User is NOT logged in, and gets redirected to login page if user clicks the login button
+        authControls.innerHTML = `<a class="btn btn-outline-light" id="loginBtn" href="/login.html" style="min-width: 80px;">Log in</a>`;
+      }
     });
-}
+  }
 }
 
-customElements.define('site-navbar', SiteNavbar);
+customElements.define("site-navbar", SiteNavbar);
