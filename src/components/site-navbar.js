@@ -10,7 +10,7 @@ class SiteNavbar extends HTMLElement {
   renderNavbar() {
     this.innerHTML = `
             <!-- Navbar: single source of truth -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-info">
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/">
                         <img src="/images/image.jpg" height="36">
